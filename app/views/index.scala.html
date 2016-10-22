@@ -1,0 +1,14 @@
+@import controllers.routes.HomeController
+@(message: String)
+
+@main("Welcome to Play") {
+<div class="row">
+	<div class="col-xs-4 col-xs-offset-4">
+		<form id="uploadForm" data-url="@HomeController.upload()">
+			<input type="file" id="file" name="file" />
+			<br />
+			<input type="submit" id="submit" value="Upload" />
+		</form>
+	</div>
+</div>
+}
