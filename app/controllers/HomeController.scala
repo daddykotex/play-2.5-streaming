@@ -29,10 +29,10 @@ class HomeController @Inject()(ws: WSClient)(implicit val ec: ExecutionContext) 
     Future.successful(Ok(views.html.index("Your new application is ready.")))
   }
 
-  private val uploadTo = "http://localhost:9000/receive"
+  private val uploadTo = (req: RequestHeader) =>  s"http://${req.host}/receive"
   private val streamParser: BodyParser[String] = BodyParser("streaming") { request => 
 	Accumulator.source[ByteString].mapFuture { source =>
-		ws.url(uploadTo)
+		ws.url(uploadTo(request))
 	       .withMethod("POST")
 	       .withBody(StreamedBody(source))
 	       .execute()
